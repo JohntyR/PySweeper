@@ -21,7 +21,6 @@ GAME_OVER_FONT = pg.font.SysFont("TAHOMA", 36)
 
 def initialise_game():
     """start up neccessary pg items"""
-
     # load program logo image
     logo = pg.image.load(ICON)
 
