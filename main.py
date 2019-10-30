@@ -20,6 +20,9 @@ from utils import (
 
 def main():
     """main game loop"""
+    # initialise game
+    pg.init()
+
     initialise_game()
 
     # create surface

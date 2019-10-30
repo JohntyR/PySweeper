@@ -9,6 +9,7 @@ FONT_COLOUR = (255, 255, 255)
 DIFFICULTY = (10, 10)
 TILE_COUNT = DIFFICULTY[0] * DIFFICULTY[1]
 MINE_COUNT = (TILE_COUNT) // 5
+NAME = "PySweeper"
 
 pg.font.init()
 
@@ -19,15 +20,13 @@ GAME_OVER_FONT = pg.font.SysFont("TAHOMA", 36)
 
 def initialise_game():
     """start up neccessary pg items"""
-    # initialise game
-    pg.init()
 
     # load program logo image
     logo = pg.image.load("Assets\\MineIcon.png")
 
     # init display settings
     pg.display.set_icon(logo)
-    pg.display.set_caption("Minepy")
+    pg.display.set_caption(NAME)
 
 
 def create_screen():
