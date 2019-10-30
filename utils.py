@@ -10,6 +10,7 @@ DIFFICULTY = (10, 10)
 TILE_COUNT = DIFFICULTY[0] * DIFFICULTY[1]
 MINE_COUNT = (TILE_COUNT) // 5
 NAME = "PySweeper"
+ICON = "Assets\\MineIcon.png"
 
 pg.font.init()
 
@@ -22,7 +23,7 @@ def initialise_game():
     """start up neccessary pg items"""
 
     # load program logo image
-    logo = pg.image.load("Assets\\MineIcon.png")
+    logo = pg.image.load(ICON)
 
     # init display settings
     pg.display.set_icon(logo)
