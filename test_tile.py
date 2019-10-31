@@ -90,16 +90,6 @@ class TestTile(unittest.TestCase):
         test_tile = Tile(10, 10)
         self.assertEqual(test_tile.is_mine, False)
 
-    def test_text_mid_point(self):
-        """Check list is returned"""
-        test_tile = Tile(10, 10)
-        test_tile_mid = [
-            test_tile.x_pos + (tile.TILE_WIDTH / 2),
-            test_tile.y_pos + (tile.TILE_HEIGHT / 2),
-        ]
-        test_tile_mid_2 = test_tile.text_mid_point()
-        self.assertEqual(test_tile_mid, test_tile_mid_2)
-
 
 if __name__ == "__main__":
     unittest.main()

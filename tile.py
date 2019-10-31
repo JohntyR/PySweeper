@@ -21,6 +21,10 @@ class Tile:
         self.x_upper = x_pos + TILE_WIDTH
         self.y_pos = y_pos
         self.y_upper = y_pos + TILE_HEIGHT
+        self.text_mid_point = [
+            self.x_pos + (TILE_WIDTH / 2),
+            self.y_pos + (TILE_HEIGHT / 2),
+        ]
 
         self.is_mine = False
         self.is_flagged = False
@@ -58,7 +62,3 @@ class Tile:
     def make_mine(self):
         """set tile as mine"""
         self.is_mine = True
-
-    def text_mid_point(self):
-        """find coords for the center of the tile for text"""
-        return [self.x_pos + (TILE_WIDTH / 2), self.y_pos + (TILE_HEIGHT / 2)]
