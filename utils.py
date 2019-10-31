@@ -11,6 +11,9 @@ TILE_COUNT = DIFFICULTY[0] * DIFFICULTY[1]
 MINE_COUNT = (TILE_COUNT) // 5
 NAME = "PySweeper"
 ICON = "Assets\\MineIcon.png"
+LEFT_ADJ_LIST = [-10, -9, 1, 10, 11]
+RIGHT_ADJ_LIST = [-11, -10, -1, 9, 10]
+ADJ_LIST = [-11, -10, -9, -1, 1, 9, 10, 11]
 
 pg.font.init()
 
@@ -79,13 +82,15 @@ def game_over_coordinates(font):
 def adjacent_bomb_count(tile_i):
     """Calculate the number of bombs in the adjacent indexes of specified tile"""
     if tile_i == 0 or tile_i % 10 == 0:
-        adjacent_tiles = [-10, -9, 1, 10, 11]
+        adjacent_tiles = LEFT_ADJ_LIST
     elif tile_i % 10 == 9:
-        adjacent_tiles = [-11, -10, -1, 9, 10]
+        adjacent_tiles = RIGHT_ADJ_LIST
     else:
-        adjacent_tiles = [-11, -10, -9, -1, 1, 9, 10, 11]
+        adjacent_tiles = ADJ_LIST
 
-    new_adjacent_tiles = [tile_i + x for x in adjacent_tiles if 0 <= tile_i + x <= 99]
+    new_adjacent_tiles = [
+        tile_i + x for x in adjacent_tiles if 0 <= tile_i + x <= (TILE_COUNT - 1)
+    ]
 
     return new_adjacent_tiles
 
