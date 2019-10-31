@@ -2,6 +2,7 @@
 import random
 import pygame as pg
 from tile import Tile
+from button import Button
 
 WINDOW_WIDTH = 480
 WINDOW_HEIGHT = 360
@@ -13,6 +14,9 @@ ICON = "Assets\\MineIcon.png"
 LEFT_ADJ_LIST = [-10, -9, 1, 10, 11]
 RIGHT_ADJ_LIST = [-11, -10, -1, 9, 10]
 ADJ_LIST = [-11, -10, -9, -1, 1, 9, 10, 11]
+
+BUTTON_X_POS = 400
+BUTTON_Y_POS = 100
 
 pg.font.init()
 
@@ -99,3 +103,8 @@ def mines_left_coords(mines_left):
         (WINDOW_WIDTH - FONT.size(f"{mines_left}")[0]) - 5,
         (5 + FONT.size(f"{mines_left}")[1]),
     )
+
+
+def add_button():
+    """add button to screen"""
+    return Button(BUTTON_X_POS, BUTTON_Y_POS)

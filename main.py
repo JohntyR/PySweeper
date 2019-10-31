@@ -10,17 +10,12 @@ def main():
 
     # init pg things and create surface - screen
     screen = ut.init_game()
+    # ------------------------------------------------------------------
+    # reset tile_set to empty list
 
-    # generate tileset
-    tile_set = ut.generate_tiles()
-
-    # generate mines and set mines in tile_set
-    mine_set = ut.generate_mine_sequence()
-    for mine_num in mine_set:
-        tile_set[mine_num].make_mine()
-
-    # mines_left
-    mines_left = ut.MINE_COUNT
+    # -----------------------------------------------------------------
+    # Create restart button
+    restart_btn = ut.add_button()
 
     # main loop control
     running = True
@@ -30,12 +25,35 @@ def main():
         # get mouse co-ordinates
         cur_mouse_pos = pg.mouse.get_pos()
 
+        # -------------------------------restart game----------------------------------
+        if restart_btn.is_clicked:
+            # generate tileset
+            tile_set = ut.generate_tiles()
+
+            # generate mines and set mines in tile_set
+            mine_set = ut.generate_mine_sequence()
+            for mine_num in mine_set:
+                tile_set[mine_num].make_mine()
+
+            # mines_left
+            mines_left = ut.MINE_COUNT
+
+            # reset restart.btn
+            restart_btn.is_clicked = False
+        # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^restart game^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
         # --------------------------event queue-----------------------------------------------
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
 
             if event.type == pg.MOUSEBUTTONDOWN:
+                restart_btn.is_over = restart_btn.hovered(
+                    cur_mouse_pos[0], cur_mouse_pos[1]
+                )
+                if restart_btn.is_over:
+                    restart_btn.clicked()
+
                 for i, tile in enumerate(tile_set):
                     if tile.is_over:
                         if event.button == 1:
@@ -58,7 +76,10 @@ def main():
         # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^event queue^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
         # Fill screen background
-        screen.fill((0, 0, 0))
+        screen.fill((0, 50, 0))
+
+        # Blit restart button
+        screen.blit(restart_btn.img, (restart_btn.x_pos, restart_btn.y_pos))
 
         # create text, get coordiantes and blit the number of mines left
         mines_left_text = ut.generate_mine_text(mines_left)
@@ -77,9 +98,7 @@ def main():
             # display tile images or mine count if already clicked
             if tile.is_clicked and not tile.is_mine:
                 tile_text = ut.generate_mine_text(tile.mine_count)
-                tile_text_coords = ut.mine_count_coords(
-                    tile_text, tile.text_mid_point
-                )
+                tile_text_coords = ut.mine_count_coords(tile_text, tile.text_mid_point)
                 screen.blit(tile_text, tile_text_coords)
             else:
                 screen.blit(tile.img, (tile.x_pos, tile.y_pos))
@@ -89,22 +108,17 @@ def main():
         # Losing condition - check if a mine has been clicked
         for tile in tile_set:
             if tile.is_mine and tile.is_clicked:
-                running = False
                 game_over_text = ut.game_over(True)
                 game_over_coords = ut.game_over_coords(game_over_text)
                 screen.blit(game_over_text, game_over_coords)
-                pg.display.flip()
-                pg.time.delay(5000)
+                break
 
         # Winning condition - check if all mines have been flagged
         mine_tile_set = [tile for tile in tile_set if tile.is_mine]
         if all(tile.is_flagged for tile in mine_tile_set):
-            running = False
             game_over_text = ut.game_over(False)
             game_over_coords = ut.game_over_coords(game_over_text)
             screen.blit(game_over_text, game_over_coords)
-            pg.display.flip()
-            pg.time.delay(5000)
 
         # refresh screen
         pg.display.flip()
