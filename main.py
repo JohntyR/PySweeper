@@ -7,10 +7,9 @@ def main():
     """Initialisation and main game loop"""
     # initialise game
     pg.init()
-    ut.initialise_game()
 
-    # create surface - screen
-    screen = ut.create_screen()
+    # init pg things and create surface - screen
+    screen = ut.init_game()
 
     # generate tileset
     tile_set = ut.generate_tiles()
@@ -62,8 +61,8 @@ def main():
         screen.fill((0, 0, 0))
 
         # create text, get coordiantes and blit the number of mines left
-        mines_left_text = ut.generate_mines_left_text(mines_left)
-        mines_left_coords = ut.mines_left_coordinates(mines_left)
+        mines_left_text = ut.generate_mine_text(mines_left)
+        mines_left_coords = ut.mines_left_coords(mines_left)
         screen.blit(mines_left_text, mines_left_coords)
 
         # ---------------------------draw tiles----------------------------------------------
@@ -77,11 +76,11 @@ def main():
 
             # display tile images or mine count if already clicked
             if tile.is_clicked and not tile.is_mine:
-                tile_text = ut.generate_mine_count_text(tile.mine_count)
-                tile_text_coords = ut.mine_count_text_coordinates(
+                tile_text = ut.generate_mine_text(tile.mine_count)
+                tile_text_coords = ut.mine_count_coords(
                     tile_text, tile.text_mid_point
                 )
-                screen.blit(tile_text, (tile_text_coords[0], tile_text_coords[1]))
+                screen.blit(tile_text, tile_text_coords)
             else:
                 screen.blit(tile.img, (tile.x_pos, tile.y_pos))
 
@@ -91,8 +90,8 @@ def main():
         for tile in tile_set:
             if tile.is_mine and tile.is_clicked:
                 running = False
-                game_over_text = ut.game_over()
-                game_over_coords = ut.game_over_coordinates(game_over_text)
+                game_over_text = ut.game_over(True)
+                game_over_coords = ut.game_over_coords(game_over_text)
                 screen.blit(game_over_text, game_over_coords)
                 pg.display.flip()
                 pg.time.delay(5000)
@@ -101,8 +100,8 @@ def main():
         mine_tile_set = [tile for tile in tile_set if tile.is_mine]
         if all(tile.is_flagged for tile in mine_tile_set):
             running = False
-            game_over_text = ut.game_over()
-            game_over_coords = ut.game_over_coordinates(game_over_text)
+            game_over_text = ut.game_over(False)
+            game_over_coords = ut.game_over_coords(game_over_text)
             screen.blit(game_over_text, game_over_coords)
             pg.display.flip()
             pg.time.delay(5000)
