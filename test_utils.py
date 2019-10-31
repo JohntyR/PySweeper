@@ -25,6 +25,7 @@ class TestUtils(unittest.TestCase):
         utils.create_screen()
         self.assertIsNotNone(pg.display.get_surface())
 
+    # TODO: can be removed - moved to const
     def test_return_mine_count(self):
         """Test if mine count is correct"""
         mine_count = utils.return_mine_count()

@@ -37,16 +37,19 @@ def create_screen():
     return pg.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
 
+# TODO: can be removed - replaced by const
 def return_mine_count():
     """number of starting mines"""
     return MINE_COUNT
 
 
+# TODO: not needed anymore - no longer displaying coord text
 def generate_text(x_pos, y_pos):
     """creates new surface with text stating the current co-ords"""
     return FONT.render(f"x: {x_pos} y: {y_pos}", True, FONT_COLOUR)
 
 
+# TODO: not needed anymore  - no longer displaying coord text
 def current_coordinates(x_pos, y_pos):
     """returns co-ordinates needed to fit text in bottom corner"""
     return (
@@ -69,11 +72,13 @@ def generate_mine_sequence():
     return random.sample(range(TILE_COUNT), (MINE_COUNT))
 
 
+# TODO: refactor to include a "you won"
 def game_over():
     """Display text that game is finished"""
     return GAME_OVER_FONT.render("GAME OVER", True, (255, 0, 0))
 
 
+# TODO: coord refactor
 def game_over_coordinates(font):
     """return coords to position game over text"""
     return font.get_rect(center=(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
@@ -95,6 +100,7 @@ def adjacent_bomb_count(tile_i):
     return new_adjacent_tiles
 
 
+# TODO: merge into one iwth gerneate_mines_left_text
 def generate_mine_count_text(mine_count):
     """creates new surface with text stating the number of mines"""
     if mine_count == 0:
@@ -102,11 +108,13 @@ def generate_mine_count_text(mine_count):
     return FONT.render(f"{mine_count}", True, FONT_COLOUR)
 
 
+# TODO: refactor coords
 def mine_count_text_coordinates(font, tile_mids):
     """returns co-ordinates needed to fit text in bottom corner"""
     return font.get_rect(center=(tile_mids[0], tile_mids[1]))
 
 
+# TODO: merge with generate_mine_count_text
 def generate_mines_left_text(mines_left):
     """creates new surface with text stating the current co-ords"""
     return FONT.render(f"{mines_left}", True, FONT_COLOUR)
