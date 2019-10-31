@@ -7,4 +7,4 @@ To add:
 - First tile choice always safe
 - High score tracking
 - Difficulty levels
-- Tests
+- ~~Tests~~
