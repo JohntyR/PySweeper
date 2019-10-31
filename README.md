@@ -3,8 +3,10 @@ Minesweeper recreated in pygame
 
 To add:
 - Better Assets
-- Restart Option
+- ~~Restart Option~~
 - First tile choice always safe
 - High score tracking
 - Difficulty levels
 - ~~Tests~~
+- Reveal all tiles on game over
+- Timer
