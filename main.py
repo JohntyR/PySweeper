@@ -25,22 +25,18 @@ def main():
             # generate tileset
             tile_set = ut.generate_tiles()
 
-            # generate mines and set mines in tile_set
-            mine_set = ut.generate_mine_sequence()
-            for mine_num in mine_set:
-                tile_set[mine_num].make_mine()
-
-            # mines_left
+            # reset mine count, first click, restart button
             mines_left = ut.MINE_COUNT
-
-            # reset restart.btn
+            first_click = True
             restart_btn.is_clicked = False
-
         # --------------------------event queue-----------------------------------------------
         for event in pg.event.get():
+            # exit game if window closed
             if event.type == pg.QUIT:
                 running = False
+                break
 
+            # check for clicks
             if event.type == pg.MOUSEBUTTONDOWN:
                 restart_btn.is_over = restart_btn.hovered(
                     cur_mouse_pos[0], cur_mouse_pos[1]
@@ -50,6 +46,16 @@ def main():
 
                 for i, tile in enumerate(tile_set):
                     if tile.is_over:
+                        # Ensure that first tile clicked is not a mine and generate mine sequence
+                        if first_click:
+                            # generate mines and set mines in tile_set
+                            mine_set = ut.generate_mine_sequence(i)
+                            for mine_num in mine_set:
+                                tile_set[mine_num].make_mine()
+                            # first click has now been made
+                            first_click = False
+
+                        # click tile, calculate adj bombs and mine count
                         if event.button == 1 and not tile.is_flagged:
                             # get an array of indexes that are adjacent to the clicked tile
                             adj_array = ut.adjacent_bomb_count(i)
@@ -111,11 +117,12 @@ def main():
                 break
 
         # Winning condition - check if all mines have been flagged
-        mine_tile_set = [tile for tile in tile_set if tile.is_mine]
-        if all(tile.is_flagged for tile in mine_tile_set):
-            game_over_text = ut.game_over(False)
-            game_over_coords = ut.game_over_coords(game_over_text)
-            screen.blit(game_over_text, game_over_coords)
+        if not first_click:
+            mine_tile_set = [tile for tile in tile_set if tile.is_mine]
+            if all(tile.is_flagged for tile in mine_tile_set):
+                game_over_text = ut.game_over(False)
+                game_over_coords = ut.game_over_coords(game_over_text)
+                screen.blit(game_over_text, game_over_coords)
 
         # refresh screen
         pg.display.flip()

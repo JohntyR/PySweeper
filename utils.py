@@ -18,9 +18,8 @@ ADJ_LIST = [-11, -10, -9, -1, 1, 9, 10, 11]
 BUTTON_X_POS = 400
 BUTTON_Y_POS = 100
 
-pg.font.init()
-
 # set fonts
+pg.font.init()
 FONT = pg.font.SysFont("TAHOMA", 12)
 FONT_COLOUR = (255, 255, 255)
 GAME_OVER_FONT = pg.font.SysFont("TAHOMA", 36)
@@ -48,9 +47,13 @@ def generate_tiles():
     return tile_set
 
 
-def generate_mine_sequence():
-    """generate random list of unique integers for mines"""
-    return random.sample(range(TILE_COUNT), (MINE_COUNT))
+def generate_mine_sequence(i):
+    """generate random list of unique integers for mines that doesnt include passed in number"""
+    while True:
+        mine_seq = random.sample(range(TILE_COUNT), (MINE_COUNT))
+        if i not in mine_seq:
+            break
+    return mine_seq
 
 
 def game_over(lost):
