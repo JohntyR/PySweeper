@@ -5,15 +5,10 @@ import utils as ut
 
 def main():
     """Initialisation and main game loop"""
-    # initialise game
+    # init pg and create surface - screen
     pg.init()
-
-    # init pg things and create surface - screen
     screen = ut.init_game()
-    # ------------------------------------------------------------------
-    # reset tile_set to empty list
 
-    # -----------------------------------------------------------------
     # Create restart button
     restart_btn = ut.add_button()
 
@@ -40,7 +35,6 @@ def main():
 
             # reset restart.btn
             restart_btn.is_clicked = False
-        # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^restart game^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
         # --------------------------event queue-----------------------------------------------
         for event in pg.event.get():
@@ -56,7 +50,7 @@ def main():
 
                 for i, tile in enumerate(tile_set):
                     if tile.is_over:
-                        if event.button == 1:
+                        if event.button == 1 and not tile.is_flagged:
                             # get an array of indexes that are adjacent to the clicked tile
                             adj_array = ut.adjacent_bomb_count(i)
 
@@ -72,9 +66,14 @@ def main():
                         # flag the tile if right clicked
                         elif event.button == 3:
                             tile.right_clicked()
-                            mines_left -= 1
-        # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^event queue^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+                            # decrement mine count if flagged, increment if unflagged
+                            if tile.is_flagged:
+                                mines_left -= 1
+                            else:
+                                mines_left += 1
+
+        # ---------------------------draw game controls and background-----------------------
         # Fill screen background
         screen.fill((0, 50, 0))
 
@@ -102,8 +101,6 @@ def main():
                 screen.blit(tile_text, tile_text_coords)
             else:
                 screen.blit(tile.img, (tile.x_pos, tile.y_pos))
-
-        # ^^^^^^^^^^^^^^^^^^^^^^^^^^draw tiles^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
         # Losing condition - check if a mine has been clicked
         for tile in tile_set:

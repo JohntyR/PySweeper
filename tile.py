@@ -49,8 +49,11 @@ class Tile:
 
     def right_clicked(self):
         """change the image if the tile has been right clicked"""
-        self.is_flagged = True
-        self.img = SAFE
+        self.is_flagged = not self.is_flagged
+        if self.is_flagged:
+            self.img = SAFE
+        else:
+            self.img = FRESH
 
     def change_image(self):
         """change to the hover img"""
