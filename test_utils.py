@@ -90,6 +90,12 @@ class TestUtils(unittest.TestCase):
         ]
         self.assertEqual(adj_list, adj_list_2)
 
+    def test_generate_mine_counter_text(self):
+        """Test if font object created"""
+        pg.font.init()
+        font_surface = utils.generate_mine_counter_text(1)
+        self.assertIsInstance(font_surface, pg.Surface)
+
     def test_generate_mine_text(self):
         """Test if font object created"""
         pg.font.init()
@@ -113,6 +119,12 @@ class TestUtils(unittest.TestCase):
         """Test if button object returned"""
         btn = utils.add_button()
         self.assertIsInstance(btn, Button)
+
+    def test_draw_tile_background(self):
+        """Test if rect object returned"""
+        screen = utils.init_game()
+        rect_obj = utils.draw_tile_background(screen)
+        self.assertIsInstance(rect_obj, pg.Rect)
 
 
 if __name__ == "__main__":
