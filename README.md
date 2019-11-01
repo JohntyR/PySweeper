@@ -10,4 +10,4 @@ To add:
 - ~~Tests~~
 - Reveal all tiles on game over
 - Timer
-- Stop left click of flagged - second right click to unflag.
+- ~~Stop left click of flagged - second right click to unflag.
