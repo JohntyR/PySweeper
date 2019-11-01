@@ -1,13 +1,18 @@
 """Utility function module"""
 import random
 import pygame as pg
+import tile
 from tile import Tile
+import button
 from button import Button
 
 WINDOW_WIDTH = 480
-WINDOW_HEIGHT = 360
+WINDOW_HEIGHT = 400
 DIFFICULTY = (10, 10)
 TILE_COUNT = DIFFICULTY[0] * DIFFICULTY[1]
+SIDE_GAP = (WINDOW_WIDTH - (DIFFICULTY[0] * tile.TILE_WIDTH)) // 2
+BOTTOM_GAP = WINDOW_HEIGHT - (DIFFICULTY[1] * tile.TILE_HEIGHT)
+
 MINE_COUNT = (TILE_COUNT) // 5
 NAME = "PySweeper"
 ICON = "Assets\\MineIcon.png"
@@ -15,8 +20,11 @@ LEFT_ADJ_LIST = [-10, -9, 1, 10, 11]
 RIGHT_ADJ_LIST = [-11, -10, -1, 9, 10]
 ADJ_LIST = [-11, -10, -9, -1, 1, 9, 10, 11]
 
-BUTTON_X_POS = 400
-BUTTON_Y_POS = 100
+BUTTON_X_POS = (WINDOW_WIDTH - button.BUTTON_WIDTH) // 2
+BUTTON_Y_POS = WINDOW_HEIGHT - button.BUTTON_HEIGHT - 5
+
+BACKGROUND_COLOUR = (85, 65, 95)
+BACKGROUND_COLOUR_TILE = (0, 0, 0)
 
 # set fonts
 pg.font.init()
@@ -24,6 +32,16 @@ FONT = pg.font.SysFont("TAHOMA", 12)
 FONT_COLOUR = (255, 255, 255)
 GAME_OVER_FONT = pg.font.SysFont("TAHOMA", 36)
 GAME_OVER_FONT_COLOUR = (255, 0, 0)
+MINE_FONT_COLOURS = [
+    (220, 245, 255),
+    (230, 200, 110),
+    (100, 185, 100),
+    (80, 140, 215),
+    (215, 115, 85),
+    (85, 65, 95),
+    (100, 105, 100),
+    (0, 0, 0),
+]
 
 
 def init_game():
@@ -41,9 +59,12 @@ def init_game():
 def generate_tiles():
     """create tiles according to chosen difficulty"""
     tile_set = []
+
     for i in range(DIFFICULTY[0]):
         for j in range(DIFFICULTY[1]):
-            tile_set.append(Tile(j * 32, i * 32))
+            tile_set.append(
+                Tile(SIDE_GAP + (j * tile.TILE_WIDTH), i * tile.TILE_HEIGHT)
+            )
     return tile_set
 
 
@@ -87,11 +108,17 @@ def adjacent_bomb_count(tile_i):
     return new_adjacent_tiles
 
 
+def generate_mine_counter_text(mines):
+    """Create new surface with count"""
+    return FONT.render(f"{mines}", True, FONT_COLOUR)
+
+
 def generate_mine_text(mines):
     """create new surface with text"""
     if mines == 0:
-        mines = ""
-    return FONT.render(f"{mines}", True, FONT_COLOUR)
+        return FONT.render("", True, FONT_COLOUR)
+
+    return FONT.render(f"{mines}", True, MINE_FONT_COLOURS[mines])
 
 
 def mine_count_coords(font, tile_mids):
@@ -102,12 +129,24 @@ def mine_count_coords(font, tile_mids):
 
 def mines_left_coords(mines_left):
     """returns co-ordinates needed to fit text in bottom corner"""
-    return (
-        (WINDOW_WIDTH - FONT.size(f"{mines_left}")[0]) - 5,
-        (5 + FONT.size(f"{mines_left}")[1]),
+    x_pos = WINDOW_WIDTH - SIDE_GAP - FONT.size(f"{mines_left}")[0] - 5
+    y_pos = (
+        DIFFICULTY[1] * tile.TILE_HEIGHT
+        + (BOTTOM_GAP - FONT.size(f"{mines_left}")[1]) // 2
     )
+    return (x_pos, y_pos)
 
 
 def add_button():
     """add button to screen"""
+
     return Button(BUTTON_X_POS, BUTTON_Y_POS)
+
+
+def draw_tile_background(screen):
+    """draw rectangle behind tiles"""
+    return pg.draw.rect(
+        screen,
+        BACKGROUND_COLOUR_TILE,
+        (SIDE_GAP, 0, (WINDOW_WIDTH - (SIDE_GAP * 2)), (WINDOW_HEIGHT - SIDE_GAP)),
+    )

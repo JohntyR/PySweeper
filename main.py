@@ -80,14 +80,15 @@ def main():
                                 mines_left += 1
 
         # ---------------------------draw game controls and background-----------------------
-        # Fill screen background
-        screen.fill((0, 50, 0))
+        # Screen and tile background
+        screen.fill(ut.BACKGROUND_COLOUR)
+        ut.draw_tile_background(screen)
 
         # Blit restart button
         screen.blit(restart_btn.img, (restart_btn.x_pos, restart_btn.y_pos))
 
         # create text, get coordiantes and blit the number of mines left
-        mines_left_text = ut.generate_mine_text(mines_left)
+        mines_left_text = ut.generate_mine_counter_text(mines_left)
         mines_left_coords = ut.mines_left_coords(mines_left)
         screen.blit(mines_left_text, mines_left_coords)
 
