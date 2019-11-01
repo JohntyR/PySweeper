@@ -3,6 +3,7 @@ import unittest
 import pygame as pg
 import utils
 from tile import Tile
+from button import Button
 
 
 class TestUtils(unittest.TestCase):
@@ -12,14 +13,15 @@ class TestUtils(unittest.TestCase):
         """init pygame and font"""
         pg.init()
 
-    def tearDown(self):
-        """quit the initiated pygame"""
-        # pg.quit()
-
     def test_init_game(self):
         """Check caption has been set correctly"""
         utils.init_game()
         self.assertEqual(pg.display.get_caption()[0], utils.NAME)
+
+    def test_init_game_2(self):
+        """Check surface is returned"""
+        surface = utils.init_game()
+        self.assertIsInstance(surface, pg.Surface)
 
     def test_generate_tiles(self):
         """Test if list of appropriate length is returned """
@@ -32,9 +34,15 @@ class TestUtils(unittest.TestCase):
         self.assertIsInstance(tile_list[0], Tile)
 
     def test_generate_mine_sequence(self):
-        """test if a list of appropriate length is returned"""
-        mine_list = utils.generate_mine_sequence()
+        """Test if a list of appropriate length is returned"""
+        mine_list = utils.generate_mine_sequence(1)
         self.assertEqual(len(mine_list), utils.MINE_COUNT)
+
+    def test_generate_mine_sequence_2(self):
+        """Test if provided index is not included in sequence"""
+        i = 1
+        mine_list = utils.generate_mine_sequence(i)
+        self.assertNotIn(i, mine_list)
 
     def test_game_over(self):
         """Test if font object created"""
@@ -100,6 +108,11 @@ class TestUtils(unittest.TestCase):
         pg.font.init()
         mines_coords = utils.mines_left_coords(1)
         self.assertIsInstance(mines_coords, tuple)
+
+    def test_add_button(self):
+        """Test if button object returned"""
+        btn = utils.add_button()
+        self.assertIsInstance(btn, Button)
 
 
 if __name__ == "__main__":

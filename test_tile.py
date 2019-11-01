@@ -64,6 +64,13 @@ class TestTile(unittest.TestCase):
         img = tile.SAFE
         self.assertEqual(test_tile.img, img)
 
+    def test_right_clicked_3(self):
+        """Check flag is reversed"""
+        test_tile = Tile(10, 10)
+        test_tile.is_flagged = True
+        test_tile.right_clicked()
+        self.assertEqual(test_tile.is_flagged, False)
+
     def test_change_image(self):
         """Check if image is changed to HOVER"""
         test_tile = Tile(10, 10)
