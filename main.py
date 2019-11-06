@@ -57,17 +57,29 @@ def main():
 
                         # click tile, calculate adj bombs and mine count
                         if event.button == 1 and not tile.is_flagged:
-                            # get an array of indexes that are adjacent to the clicked tile
-                            adj_array = ut.adjacent_bomb_count(i)
+                            # create a list of tiles to be clicked
+                            # loop through list and calc mine count, and click
+                            tiles_to_be_clicked = [i]
+                            j = 0
+                            while j < len(tiles_to_be_clicked):
+                                # get an array of indexes that are adjacent to the clicked tile
+                                adj_array = ut.adjacent_bomb_count(tiles_to_be_clicked[j])
 
-                            # count how many are mines are in those adjacent tiles
-                            mine_count = 0
-                            for adj in adj_array:
-                                if tile_set[adj].is_mine:
-                                    mine_count += 1
+                                # count how many are mines are in those adjacent tiles
+                                mine_count = 0
+                                for adj in adj_array:
+                                    if tile_set[adj].is_mine:
+                                        mine_count += 1
+                                
+                                if mine_count == 0:
+                                    for adj in adj_array:
+                                        if adj not in tiles_to_be_clicked:
+                                            tiles_to_be_clicked.append(adj)
 
-                            # set tile.is_clicked, set mine count or change image to bomb
-                            tile.clicked(mine_count)
+                                # set tile.is_clicked, set mine count or change image to bomb
+                                tile_set[tiles_to_be_clicked[j]].clicked(mine_count)
+
+                                j += 1
 
                         # flag the tile if right clicked
                         elif event.button == 3:
