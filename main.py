@@ -63,14 +63,16 @@ def main():
                             j = 0
                             while j < len(tiles_to_be_clicked):
                                 # get an array of indexes that are adjacent to the clicked tile
-                                adj_array = ut.adjacent_bomb_count(tiles_to_be_clicked[j])
+                                adj_array = ut.adjacent_bomb_count(
+                                    tiles_to_be_clicked[j]
+                                )
 
                                 # count how many are mines are in those adjacent tiles
                                 mine_count = 0
                                 for adj in adj_array:
                                     if tile_set[adj].is_mine:
                                         mine_count += 1
-                                
+
                                 if mine_count == 0:
                                     for adj in adj_array:
                                         if adj not in tiles_to_be_clicked:
