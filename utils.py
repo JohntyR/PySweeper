@@ -30,7 +30,7 @@ BACKGROUND_COLOUR_TILE = (0, 0, 0)
 pg.font.init()
 FONT = pg.font.SysFont("TAHOMA", 12)
 FONT_COLOUR = (255, 255, 255)
-GAME_OVER_FONT = pg.font.SysFont("TAHOMA", 36)
+GAME_OVER_FONT = pg.font.SysFont("TAHOMA", 48, bold=1)
 GAME_OVER_FONT_COLOUR = (255, 0, 0)
 MINE_FONT_COLOURS = [
     (220, 245, 255),
@@ -40,7 +40,7 @@ MINE_FONT_COLOURS = [
     (215, 115, 85),
     (85, 65, 95),
     (100, 105, 100),
-    (0, 0, 0),
+    (30, 30, 30),
 ]
 
 
@@ -89,7 +89,9 @@ def game_over(lost):
 
 def game_over_coords(font):
     """return coords to position game over text"""
-    return font.get_rect(center=(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
+    x_pos = ((DIFFICULTY[0] * tile.TILE_WIDTH) / 2) + SIDE_GAP
+    y_pos = (DIFFICULTY[1] * tile.TILE_HEIGHT) / 2
+    return font.get_rect(center=(x_pos, y_pos))
 
 
 def adjacent_bomb_count(tile_i):
