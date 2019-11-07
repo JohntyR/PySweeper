@@ -5,10 +5,11 @@ Minesweeper recreated in pygame
 To add:
 
 - Better Assets
+- Highlight mine clicked on loss
 - ~~Restart Option~~
 - ~~First tile choice always safe~~
-- High score tracking
-- Difficulty levels
+- ~~High score tracking (GUI required)~~
+- ~~Difficulty levels (GUI required)~~
 - ~~Tests~~
 - ~~Reveal all tiles on game over~~
 - ~~Timer~~
