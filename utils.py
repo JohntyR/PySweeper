@@ -127,6 +127,20 @@ def mine_count_coords(font, tile_mids):
     return (font_obj[0], font_obj[1])
 
 
+def generate_timer_text(time):
+    """Create new surface with text for time elapsed"""
+    return FONT.render(f"{time}", True, FONT_COLOUR)
+
+def timer_coords(time):
+    """returns coords needed to fit timer text in bottom corner"""
+    x_pos = SIDE_GAP + FONT.size(time)[0] + 5
+    y_pos = (
+        DIFFICULTY[1] * tile.TILE_HEIGHT
+        + (BOTTOM_GAP - FONT.size(f"{time}")[1]) // 2
+    )
+    return (x_pos, y_pos)
+
+
 def mines_left_coords(mines_left):
     """returns co-ordinates needed to fit text in bottom corner"""
     x_pos = WINDOW_WIDTH - SIDE_GAP - FONT.size(f"{mines_left}")[0] - 5
