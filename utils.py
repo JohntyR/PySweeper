@@ -78,7 +78,7 @@ def generate_mine_sequence(i):
 
 
 def game_over(lost):
-    """Display text that game is finished"""
+    """Create font object for end game text"""
     if lost:
         text = "GAME OVER!"
     else:
@@ -109,12 +109,12 @@ def adjacent_bomb_count(tile_i):
 
 
 def generate_mine_counter_text(mines):
-    """Create new surface with count"""
+    """Create font object for number of mines left"""
     return FONT.render(f"{mines}", True, FONT_COLOUR)
 
 
 def generate_mine_text(mines):
-    """create new surface with text"""
+    """Create font object for mine count to be displayed on clicked tiles"""
     if mines == 0:
         return FONT.render("", True, FONT_COLOUR)
 
@@ -131,12 +131,12 @@ def generate_timer_text(time):
     """Create new surface with text for time elapsed"""
     return FONT.render(f"{time}", True, FONT_COLOUR)
 
+
 def timer_coords(time):
     """returns coords needed to fit timer text in bottom corner"""
-    x_pos = SIDE_GAP + FONT.size(time)[0] + 5
+    x_pos = SIDE_GAP + FONT.size(f"{time}")[0] + 5
     y_pos = (
-        DIFFICULTY[1] * tile.TILE_HEIGHT
-        + (BOTTOM_GAP - FONT.size(f"{time}")[1]) // 2
+        DIFFICULTY[1] * tile.TILE_HEIGHT + (BOTTOM_GAP - FONT.size(f"{time}")[1]) // 2
     )
     return (x_pos, y_pos)
 

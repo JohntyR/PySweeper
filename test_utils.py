@@ -14,14 +14,14 @@ class TestUtils(unittest.TestCase):
         pg.init()
 
     def test_init_game(self):
+        """Check surface is created"""
+        screen = utils.init_game()
+        self.assertIsInstance(screen, pg.Surface)
+
+    def test_init_game_2(self):
         """Check caption has been set correctly"""
         utils.init_game()
         self.assertEqual(pg.display.get_caption()[0], utils.NAME)
-
-    def test_init_game_2(self):
-        """Check surface is returned"""
-        surface = utils.init_game()
-        self.assertIsInstance(surface, pg.Surface)
 
     def test_generate_tiles(self):
         """Test if list of appropriate length is returned """
@@ -51,7 +51,7 @@ class TestUtils(unittest.TestCase):
         self.assertIsInstance(font_surface, pg.Surface)
 
     def test_game_over_coordinates(self):
-        """test if rect instance is returned"""
+        """Test if rect instance is returned"""
         pg.font.init()
         font = utils.FONT.render("test", True, utils.FONT_COLOUR)
         game_over_coords = utils.game_over_coords(font)
@@ -102,12 +102,24 @@ class TestUtils(unittest.TestCase):
         font_surface = utils.generate_mine_text(1)
         self.assertIsInstance(font_surface, pg.Surface)
 
-    def test_mine_count_text_coordinates(self):
-        """Test if Rect instance is returned"""
+    def test_mine_count_coordinates(self):
+        """Test if tuple of coords is returned"""
         pg.font.init()
         font = utils.FONT.render("test", True, utils.FONT_COLOUR)
         mine_count_text_coords = utils.mine_count_coords(font, (10, 10))
         self.assertIsInstance(mine_count_text_coords, tuple)
+
+    def test_generate_timer_text(self):
+        """Test font object returned"""
+        pg.font.init()
+        font_surface = utils.generate_timer_text(1)
+        self.assertIsInstance(font_surface, pg.Surface)
+
+    def test_timer_coords(self):
+        """Test if tuple of coords is returned"""
+        pg.font.init()
+        timer_coords = utils.timer_coords(1)
+        self.assertIsInstance(timer_coords, tuple)
 
     def test_mines_left_coordinates(self):
         """Test if coord tuple is returned"""
