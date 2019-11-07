@@ -11,6 +11,6 @@ To add:
 - Difficulty levels
 - ~~Tests~~
 - Reveal all tiles on game over
-- Timer
+- ~~Timer~~
 - ~~Stop left click of flagged - second right click to unflag.~~
 - ~~Spread to other tiles if no mines nearby~~
