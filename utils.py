@@ -70,9 +70,12 @@ def generate_tiles():
 
 def generate_mine_sequence(i):
     """generate random list of unique integers for mines that doesnt include passed in number"""
+    adj_array = adjacent_bomb_count(i)
+    adj_array.append(i)
     while True:
         mine_seq = random.sample(range(TILE_COUNT), (MINE_COUNT))
-        if i not in mine_seq:
+        if not any(elem in adj_array for elem in mine_seq):
+            # if adj_array not in mine_seq:
             break
     return mine_seq
 

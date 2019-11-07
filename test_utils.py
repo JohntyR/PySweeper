@@ -39,10 +39,13 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(len(mine_list), utils.MINE_COUNT)
 
     def test_generate_mine_sequence_2(self):
-        """Test if provided index is not included in sequence"""
+        """Test if provided index and adjacent tiles are not included in sequence"""
         i = 1
+        adj_array = utils.adjacent_bomb_count(i)
+        adj_array.append(i)
         mine_list = utils.generate_mine_sequence(i)
-        self.assertNotIn(i, mine_list)
+        intersection = list(set(adj_array).intersection(mine_list))
+        self.assertEqual(intersection, [])
 
     def test_game_over(self):
         """Test if font object created"""
