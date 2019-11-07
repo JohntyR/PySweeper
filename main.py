@@ -135,13 +135,22 @@ def main():
                 screen.blit(tile.img, (tile.x_pos, tile.y_pos))
 
         # Losing condition: a mine has been clicked - create and blit text, stop timer
-        for tile in tile_set:
-            if tile.is_mine and tile.is_clicked:
-                game_over_text = ut.game_over(True)
-                game_over_coords = ut.game_over_coords(game_over_text)
-                screen.blit(game_over_text, game_over_coords)
-                timer_started = False
-                break
+        if any((tile.is_mine and tile.is_clicked) for tile in tile_set):
+            # Click all tiles
+            for i, tile2 in enumerate(tile_set):
+                adj_array = ut.adjacent_bomb_count(i)
+
+                mine_count = 0
+                for adj in adj_array:
+                    if tile_set[adj].is_mine:
+                        mine_count += 1
+
+                tile2.clicked(mine_count)
+
+            game_over_text = ut.game_over(True)
+            game_over_coords = ut.game_over_coords(game_over_text)
+            screen.blit(game_over_text, game_over_coords)
+            timer_started = False
 
         # Winning condition: All mines have been flagged - create and blit text, stop timer
         if not first_click:
