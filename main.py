@@ -77,7 +77,7 @@ def main():
                                 for adj in adj_array:
                                     if tile_set[adj].is_mine:
                                         mine_count += 1
-                                # If there are no mines, add all adjacent tiles to tiles_to_be_clicked
+                                # If no mines, add all adjacent tiles to tiles_to_be_clicked
                                 if mine_count == 0:
                                     for adj in adj_array:
                                         if adj not in tiles_to_be_clicked:
@@ -134,7 +134,7 @@ def main():
             else:
                 screen.blit(tile.img, (tile.x_pos, tile.y_pos))
 
-        # Losing condition: a mine has been clicked - reveal all tiles, create and blit text, stop timer
+        # Losing condition: a mine has been clicked - reveal all tiles, create/blit text, stop timer
         if any((tile.is_mine and tile.is_clicked) for tile in tile_set):
             # Reveal all tiles
             for i, tile2 in enumerate(tile_set):
