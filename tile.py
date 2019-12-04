@@ -3,8 +3,8 @@ import pygame as pg
 
 FRESH = pg.image.load("Assets\\Tile.png")
 HOVER = pg.image.load("Assets\\TileHover.png")
-SAFE = pg.image.load("Assets\\acorn.png")
-MINE = pg.image.load("Assets\\grenade.png")
+SAFE = pg.image.load("Assets\\flag1632.png")
+MINE = pg.image.load("Assets\\mine.png")
 
 TILE_WIDTH = FRESH.get_width()
 TILE_HEIGHT = FRESH.get_height()
