@@ -6,8 +6,8 @@ from tile import Tile
 import button
 from button import Button
 
-WINDOW_WIDTH = 480
-WINDOW_HEIGHT = 400
+WINDOW_WIDTH = 330
+WINDOW_HEIGHT = 370
 DIFFICULTY = (10, 10)
 TILE_COUNT = DIFFICULTY[0] * DIFFICULTY[1]
 SIDE_GAP = (WINDOW_WIDTH - (DIFFICULTY[0] * tile.TILE_WIDTH)) // 2
@@ -15,13 +15,13 @@ BOTTOM_GAP = WINDOW_HEIGHT - (DIFFICULTY[1] * tile.TILE_HEIGHT)
 
 MINE_COUNT = (TILE_COUNT) // 5
 NAME = "PySweeper"
-ICON = "Assets\\MineIcon.png"
+ICON = "Assets\\Mine.png"
 LEFT_ADJ_LIST = [-10, -9, 1, 10, 11]
 RIGHT_ADJ_LIST = [-11, -10, -1, 9, 10]
 ADJ_LIST = [-11, -10, -9, -1, 1, 9, 10, 11]
 
 BUTTON_X_POS = (WINDOW_WIDTH - button.BUTTON_WIDTH) // 2
-BUTTON_Y_POS = WINDOW_HEIGHT - button.BUTTON_HEIGHT - 5
+BUTTON_Y_POS = (DIFFICULTY[1] * tile.TILE_HEIGHT) + ((BOTTOM_GAP - button.BUTTON_HEIGHT) // 2)
 
 BACKGROUND_COLOUR = (85, 65, 95)
 BACKGROUND_COLOUR_TILE = (0, 0, 0)
@@ -30,6 +30,8 @@ BACKGROUND_COLOUR_TILE = (0, 0, 0)
 pg.font.init()
 FONT = pg.font.SysFont("TAHOMA", 12)
 FONT_COLOUR = (255, 255, 255)
+TIMER_FONT = pg.font.SysFont("TAHOMA", 16)
+TIMER_FONT_COLOUR = (255, 255, 255)
 GAME_OVER_FONT = pg.font.SysFont("TAHOMA", 48, bold=1)
 GAME_OVER_FONT_COLOUR = (255, 0, 0)
 MINE_FONT_COLOURS = [
@@ -115,7 +117,7 @@ def adjacent_bomb_count(tile_i):
 
 def generate_mine_counter_text(mines):
     """Create font object for number of mines left"""
-    return FONT.render(f"{mines}", True, FONT_COLOUR)
+    return TIMER_FONT.render(f"{mines}", True, TIMER_FONT_COLOUR)
 
 
 def generate_mine_text(mines):
@@ -134,24 +136,24 @@ def mine_count_coords(font, tile_mids):
 
 def generate_timer_text(time):
     """Create new surface with text for time elapsed"""
-    return FONT.render(f"{time}", True, FONT_COLOUR)
+    return TIMER_FONT.render(f"{time}", True, TIMER_FONT_COLOUR)
 
 
 def timer_coords(time):
     """returns coords needed to fit timer text in bottom corner"""
-    x_pos = SIDE_GAP + FONT.size(f"{time}")[0] + 5
+    x_pos = SIDE_GAP + (tile.TILE_WIDTH * 2) - (TIMER_FONT.size(f"{time}")[0] // 2)
     y_pos = (
-        DIFFICULTY[1] * tile.TILE_HEIGHT + (BOTTOM_GAP - FONT.size(f"{time}")[1]) // 2
+        DIFFICULTY[1] * tile.TILE_HEIGHT + (BOTTOM_GAP - TIMER_FONT.size(f"{time}")[1]) // 2
     )
     return (x_pos, y_pos)
 
 
 def mines_left_coords(mines_left):
     """returns co-ordinates needed to fit text in bottom corner"""
-    x_pos = WINDOW_WIDTH - SIDE_GAP - FONT.size(f"{mines_left}")[0] - 5
+    x_pos = WINDOW_WIDTH - SIDE_GAP - (tile.TILE_WIDTH * 2) - (TIMER_FONT.size(f"{mines_left}")[0] // 2)
     y_pos = (
         DIFFICULTY[1] * tile.TILE_HEIGHT
-        + (BOTTOM_GAP - FONT.size(f"{mines_left}")[1]) // 2
+        + (BOTTOM_GAP - TIMER_FONT.size(f"{mines_left}")[1]) // 2
     )
     return (x_pos, y_pos)
 
@@ -167,5 +169,5 @@ def draw_tile_background(screen):
     return pg.draw.rect(
         screen,
         BACKGROUND_COLOUR_TILE,
-        (SIDE_GAP, 0, (WINDOW_WIDTH - (SIDE_GAP * 2)), (WINDOW_HEIGHT - SIDE_GAP)),
+        (SIDE_GAP, 0, (WINDOW_WIDTH - (SIDE_GAP * 2)), (WINDOW_HEIGHT - BOTTOM_GAP)),
     )
