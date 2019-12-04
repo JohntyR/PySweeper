@@ -4,7 +4,7 @@ Minesweeper recreated in pygame
 
 To add:
 
-- Better Assets
+- ~~Better Assets~~
 - Highlight mine clicked on loss
 - ~~Restart Option~~
 - ~~First tile choice always safe~~
